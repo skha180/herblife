@@ -1,0 +1,75 @@
+{% load static %}
+
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3">
+      <img src="{% static 'products/images/logo.png' %}" alt="HerbLife" class="h-10 w-10 rounded-full object-cover shadow-sm">
+      <span class="font-bold text-xl text-green-700">HerbLife</span>
+    </a>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-8 font-medium text-gray-700">
+      <a href="/" class="relative group hover:text-green-700 transition duration-300">
+        Home
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-700 transition-all group-hover:w-full"></span>
+      </a>
+      <a href="/products/" class="relative group hover:text-green-700 transition duration-300">
+        Products
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-700 transition-all group-hover:w-full"></span>
+      </a>
+      <a href="/about/" class="relative group hover:text-green-700 transition duration-300">
+        About
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-700 transition-all group-hover:w-full"></span>
+      </a>
+      <a href="/contact/" class="relative group hover:text-green-700 transition duration-300">
+        Contact
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-700 transition-all group-hover:w-full"></span>
+      </a>
+
+      <!-- Optional Order Icon -->
+      <a href="/products/" class="flex items-center gap-1 text-green-700 hover:text-green-800 transition duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        Cart
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button id="mobileMenuBtn" class="p-2 rounded-md text-green-700 hover:bg-green-100 focus:outline-none transition duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg transition-all duration-300">
+    <a href="/" class="block px-6 py-3 hover:bg-green-50 hover:text-green-700 transition duration-200">Home</a>
+    <a href="/products/" class="block px-6 py-3 hover:bg-green-50 hover:text-green-700 transition duration-200">Products</a>
+    <a href="/about/" class="block px-6 py-3 hover:bg-green-50 hover:text-green-700 transition duration-200">About</a>
+    <a href="/contact/" class="block px-6 py-3 hover:bg-green-50 hover:text-green-700 transition duration-200">Contact</a>
+    <a href="/products/" class="block px-6 py-3 hover:bg-green-50 hover:text-green-700 flex items-center gap-2 transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+      </svg>
+      Cart
+    </a>
+  </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('mobileMenuBtn');
+  const menu = document.getElementById('mobileMenu');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+});
+</script>

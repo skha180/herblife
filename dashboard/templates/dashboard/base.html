@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard — HerbLife{% endblock %}</title>
+
+    <link rel="icon" href="{% static 'products/images/logo.png' %}" type="image/png">
+
+    <!-- Social Media Preview -->
+    <meta property="og:title" content="Best Herbal Medicine" />
+    <meta property="og:description" content="Natural cures with no side effects." />
+    <meta property="og:image" content="https://yourdomain.com/static/images/preview.jpg" />
+    <meta property="og:type" content="website" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Mobile Sidebar Toggle -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        }
+    </script>
+
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="bg-green-900 text-white w-64 min-h-screen fixed md:relative z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-lg">
+        
+        <div class="p-6 border-b border-white-900 flex items-center gap-2">
+            <!-- LOGO -->
+            <img src="{% static 'products/images/logo.png' %}" alt="HerbLife Logo" class="h-10 w-10 rounded-full">
+            <span class="text-2xl font-bold">HerbLife</span>
+        </div>
+
+        <nav class="mt-6">
+            <a href="{% url 'dashboard_home' %}" class="block px-6 py-3 hover:bg-green-800">Dashboard</a>
+            <a href="{% url 'dashboard_orders' %}" class="block px-6 py-3 hover:bg-green-800">Orders</a>
+            <a href="{% url 'dashboard_products' %}" class="block px-6 py-3 hover:bg-green-800">Products</a>
+            <a href="{% url 'home' %}" class="block px-6 py-3 hover:bg-green-800">Website</a>
+
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+
+        <!-- Header / Topbar -->
+        <header class="bg-white text-green-900 p-4 flex justify-between items-center shadow">
+            <div class="flex items-center gap-3">
+                <!-- Sidebar Toggle Button (mobile only) -->
+                <button onclick="toggleSidebar()" class="md:hidden p-2 bg-green-800 rounded-lg">
+                    ☰
+                </button>
+                <h1 class="text-xl font-bold">{% block header %}Dashboard{% endblock %}</h1>
+            </div>
+            <div>
+                <span>Welcome, {{ request.user.username }}</span>
+            <span>
+                <a href="{% url 'dashboard_logout' %}" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-400">Logout</a>
+            </span>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="p-6 flex-1 overflow-auto">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order {{ product.title }} — HerbLife{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-lg overflow-hidden p-6 md:p-12">
+  
+  <h1 class="text-3xl font-bold text-green-700 mb-6 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+    </svg>
+    Order "{{ product.title }}"
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+
+    <!-- Product Info -->
+    <div class="flex flex-col items-center gap-4">
+      <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-64 object-contain rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold text-green-700">{{ product.title }}</h2>
+      <div class="flex items-center gap-2">
+        {% if product.discount_price %}
+          <span class="line-through text-gray-400">₦{{ product.price }}</span>
+          <span class="text-green-700 font-bold text-lg">₦{{ product.discount_price }}</span>
+        {% else %}
+          <span class="text-green-700 font-bold text-lg">₦{{ product.price }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Rating Stars -->
+      <div class="flex mt-2">
+        {% for i in "12345" %}
+          {% if forloop.counter <= product.rating|default:5 %}
+            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.955a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.287 3.955c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.286-3.955a1 1 0 00-.364-1.118L2.975 9.382c-.784-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.955z"/></svg>
+          {% else %}
+            <svg class="h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.955a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.287 3.955c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.286-3.955a1 1 0 00-.364-1.118L2.975 9.382c-.784-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.955z"/></svg>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Payment Info -->
+      <div class="flex items-center gap-2 mt-4 text-sm text-green-700">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"/>
+        </svg>
+        Payment on Delivery & Fast Shipping
+      </div>
+    </div>
+
+    <!-- Order Form -->
+    <div>
+      <form method="post" class="flex flex-col gap-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Name -->
+        <label class="flex flex-col text-gray-700">
+          <span class="mb-1 flex items-center gap-1 font-semibold">
+            <svg class="h-5 w-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4.992 4.992 0 017 7a5 5 0 0110 0 4.992 4.992 0 011.879 10.804M12 12v.01M12 16h.01"/>
+            </svg>
+            Name
+          </span>
+          {{ form.name }}
+        </label>
+
+        <!-- Phone -->
+        <label class="flex flex-col text-gray-700">
+          <span class="mb-1 flex items-center gap-1 font-semibold">
+            <svg class="h-5 w-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"/>
+            </svg>
+            Phone
+          </span>
+          {{ form.phone }}
+        </label>
+
+        <!-- Address -->
+        <label class="flex flex-col text-gray-700">
+          <span class="mb-1 flex items-center gap-1 font-semibold">
+            <svg class="h-5 w-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8c0 1.657-1.343 3-3 3S10 9.657 10 8s1.343-3 3-3 3 1.343 3 3z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 20v-2a4 4 0 014-4h12a4 4 0 014 4v2"/>
+            </svg>
+            Address
+          </span>
+          {{ form.address }}
+        </label>
+
+        <!-- Submit Button -->
+        <button type="submit" class="mt-4 flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-xl transition duration-300">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          Place Order
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

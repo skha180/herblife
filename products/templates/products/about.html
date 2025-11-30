@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="bg-green-700 text-white py-16">
+  <div class="container mx-auto px-6 text-center">
+    <h1 class="text-4xl font-bold mb-3">About HerbLife 🌿</h1>
+    <p class="text-lg max-w-2xl mx-auto">
+      We provide trusted herbal medicines with fast nationwide delivery.  
+      Pay when your product arrives — 100% customer satisfaction.
+    </p>
+  </div>
+</section>
+
+<section class="py-12 container mx-auto px-6 grid md:grid-cols-2 gap-8">
+
+  <div>
+    <h2 class="text-2xl font-semibold text-green-700 mb-4">🌱 Our Mission</h2>
+    <p class="text-gray-700 leading-relaxed">
+      To make herbal medicine affordable and trusted in every home in Nigeria.
+      We focus on quality, natural ingredients, fast delivery, and professional advice.
+    </p>
+  </div>
+
+  <div>
+    <h2 class="text-2xl font-semibold text-green-700 mb-4">🧪 Why Herbal?</h2>
+    <ul class="list-disc ml-6 text-gray-700 space-y-2">
+      <li>No chemical side effects</li>
+      <li>Boosts natural immune system</li>
+      <li>Affordable and effective</li>
+      <li>Used for centuries with proven results</li>
+    </ul>
+  </div>
+
+</section>
+
+<section class="bg-green-50 py-12">
+  <div class="container mx-auto px-6 text-center">
+
+    <h2 class="text-2xl font-bold text-green-700 mb-6">💬 Our Values</h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="p-6 bg-white shadow rounded-lg">
+        <svg class="w-10 h-10 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 2l2.09 6.26h6.58l-5.34 3.87L17.67 18 12 14.47 6.33 18l2.34-5.87L3.33 8.26h6.58z"/>
+        </svg>
+        <p class="font-semibold mt-2">Quality Herbal Products</p>
+      </div>
+
+      <div class="p-6 bg-white shadow rounded-lg">
+        <svg class="w-10 h-10 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M5 13l4 4L19 7"/>
+        </svg>
+        <p class="font-semibold mt-2">Trusted by Thousands</p>
+      </div>
+
+      <div class="p-6 bg-white shadow rounded-lg">
+        <svg class="w-10 h-10 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M13 3h-2v10l9 5.25.75-1.85L13 11z"/>
+        </svg>
+        <p class="font-semibold mt-2">Fast Delivery</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

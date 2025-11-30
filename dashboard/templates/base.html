@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HerbLife{% endblock %}</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="icon" href="{% static 'products/images/logo.png' %}" type="image/png">
+
+<!-- Social Media Preview -->
+<meta property="og:title" content="Best Herbal Medicine" />
+<meta property="og:description" content="Natural cures with no side effects." />
+<meta property="og:image" content="https://yourdomain.com/static/images/preview.jpg" />
+<meta property="og:type" content="website" />
+
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <!-- Main Content -->
+    <main class="min-h-[60vh] container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+
+</body>
+</html>

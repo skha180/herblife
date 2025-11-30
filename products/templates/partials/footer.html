@@ -1,0 +1,55 @@
+<footer class="bg-green-700 text-white mt-12">
+  <div class="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <!-- Brand Info -->
+    <div class="flex flex-col gap-3">
+      <h3 class="font-bold text-2xl">HerbLife</h3>
+      <p class="text-sm text-green-100">Premium herbal medicine crafted with care. Pay on delivery. Trusted by thousands of happy customers.</p>
+      <!-- Social icons (optional) -->
+      <div class="flex items-center gap-4 mt-2">
+        <a href="#" class="hover:text-green-300 transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M22.46 6c-.77.35-1.6.59-2.46.69a4.28 4.28 0 001.88-2.37 8.55 8.55 0 01-2.7 1.03 4.26 4.26 0 00-7.26 3.88 12.1 12.1 0 01-8.77-4.45 4.26 4.26 0 001.32 5.7A4.22 4.22 0 012 9.71v.05a4.26 4.26 0 003.42 4.18 4.27 4.27 0 01-1.92.07 4.26 4.26 0 003.97 2.95A8.54 8.54 0 012 19.54 12.06 12.06 0 008.29 21c7.55 0 11.68-6.26 11.68-11.68 0-.18-.01-.36-.02-.54A8.36 8.36 0 0022.46 6z"/>
+          </svg>
+        </a>
+        <a href="#" class="hover:text-green-300 transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.04c-5.5 0-9.96 4.46-9.96 9.96 0 4.4 3.2 8.07 7.45 9.01v-6.36H9.16v-2.65h1.33V9.36c0-1.32.78-2.05 1.97-2.05.57 0 1.16.1 1.16.1v1.28h-.66c-.65 0-.85.4-.85.81v.98h1.44l-.23 2.65h-1.21v6.36c4.25-.94 7.45-4.61 7.45-9.01 0-5.5-4.46-9.96-9.96-9.96z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="font-semibold text-lg mb-3">Quick Links</h4>
+      <ul class="flex flex-col gap-2 text-green-100">
+        <li><a href="/products/" class="hover:text-green-300 transition duration-300">Products</a></li>
+        <li><a href="/about/" class="hover:text-green-300 transition duration-300">About</a></li>
+        <li><a href="/contact/" class="hover:text-green-300 transition duration-300">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div>
+      <h4 class="font-semibold text-lg mb-3">Contact</h4>
+      <p class="flex items-center gap-2 text-green-100 mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        +234 800 XXX XXXX
+      </p>
+      <p class="flex items-center gap-2 text-green-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-300" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.52 3.48a11.45 11.45 0 00-16.17 16.17L2 22l2.36-.62a11.45 11.45 0 0016.16-16.17zM12 21a9 9 0 119-9 9 9 0 01-9 9z"/>
+        </svg>
+        +234 80X XXX XXXX
+      </p>
+    </div>
+
+  </div>
+
+  <div class="bg-green-800 border-t mt-8 py-4">
+    <div class="container mx-auto px-4 text-center text-green-100 text-sm">© {{ year|default:2025 }} HerbLife. All rights reserved.</div>
+  </div>
+</footer>

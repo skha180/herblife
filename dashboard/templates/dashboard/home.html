@@ -1,0 +1,145 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="p-6">
+
+  <!-- Page Title -->
+  <h1 class="text-3xl font-bold text-green-900 mb-6">Dashboard</h1>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+      <svg class="h-8 w-8 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v18H3V3z"/>
+      </svg>
+      <div>
+        <p class="text-gray-500 text-sm">Total Orders</p>
+        <p class="font-bold text-lg">{{ total_orders }}</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+      <svg class="h-8 w-8 text-green-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3h14v14H5V3z"/>
+      </svg>
+      <div>
+        <p class="text-gray-500 text-sm">Total Products</p>
+        <p class="font-bold text-lg">{{ total_products }}</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+      <svg class="h-8 w-8 text-green-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+      <div>
+        <p class="text-gray-500 text-sm">Pending Orders</p>
+        <p class="font-bold text-lg">{{ pending_orders }}</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+      <svg class="h-8 w-8 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"/>
+      </svg>
+      <div>
+        <p class="text-gray-500 text-sm">Completed Orders</p>
+        <p class="font-bold text-lg">{{ completed_orders }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <div class="bg-white shadow rounded-2xl p-4">
+      <h2 class="text-green-900 font-semibold mb-4">Orders Over Time</h2>
+      <canvas id="ordersChart"></canvas>
+    </div>
+    <div class="bg-white shadow rounded-2xl p-4">
+      <h2 class="text-green-900 font-semibold mb-4">Products Distribution</h2>
+      <canvas id="productsChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Recent Orders Table -->
+  <div class="mt-8 bg-white shadow rounded-2xl p-4 overflow-x-auto">
+    <h2 class="text-xl font-semibold text-green-900 mb-4">Recent Orders</h2>
+    <div class="mb-4 flex gap-3">
+      <a href="?status=Pending" class="px-3 py-1 rounded-full bg-green-100 text-green-700">Pending</a>
+      <a href="?status=Completed" class="px-3 py-1 rounded-full bg-green-100 text-green-700">Completed</a>
+      <a href="?status=" class="px-3 py-1 rounded-full bg-green-100 text-green-700">All</a>
+    </div>
+    <table class="w-full text-left">
+      <thead class="border-b-2 border-green-200">
+        <tr>
+          <th class="px-4 py-2">ID</th>
+          <th class="px-4 py-2">Customer</th>
+          <th class="px-4 py-2">Product</th>
+          <th class="px-4 py-2">Phone</th>
+          <th class="px-4 py-2">Status</th>
+          <th class="px-4 py-2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in recent_orders %}
+        <tr class="border-b border-green-100 hover:bg-green-50">
+          <td class="px-4 py-2">{{ order.id }}</td>
+          <td class="px-4 py-2">{{ order.name }}</td>
+          <td class="px-4 py-2">{{ order.product.title }}</td>
+          <td class="px-4 py-2">{{ order.phone }}</td>
+          <td class="px-4 py-2">
+            <span class="px-2 py-1 rounded-full {% if order.status == 'Completed' %}bg-green-200 text-green-700{% else %}bg-yellow-100 text-yellow-700{% endif %}">
+              {{ order.status }}
+            </span>
+          </td>
+          <td class="px-4 py-2 flex gap-2">
+            <a href="{% url 'dashboard_order_edit' order.id %}" class="text-blue-600 hover:text-blue-800">Edit</a>
+            <a href="{% url 'dashboard_order_delete' order.id %}" class="text-red-600 hover:text-red-800">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+  const ordersChart = new Chart(ordersCtx, {
+    type: 'line',
+    data: {
+      labels: {{ chart_labels|safe }},
+      datasets: [{
+        label: 'Orders',
+        data: {{ chart_data|safe }},
+        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+        borderColor: 'rgba(5, 150, 105, 1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  const productsCtx = document.getElementById('productsChart').getContext('2d');
+  const productsChart = new Chart(productsCtx, {
+    type: 'doughnut',
+    data: {
+      labels: {{ products_labels|safe }},
+      datasets: [{
+        data: {{ products_data|safe }},
+        backgroundColor: ['#059669', '#10B981', '#34D399', '#6EE7B7', '#D1FAE5'],
+      }]
+    },
+    options: { responsive: true }
+  });
+</script>
+
+{% endblock %}

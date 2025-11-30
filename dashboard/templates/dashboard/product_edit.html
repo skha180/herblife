@@ -1,0 +1,79 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+    {% if product %}
+        Edit {{ product.title }} — HerbLife
+    {% else %}
+        Add Product — HerbLife
+    {% endif %}
+{% endblock %}
+
+{% load form_tags %}
+
+{% block header %}
+    {% if product %}
+        Edit {{ product.title }}
+    {% else %}
+        Add Product
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Show current image if editing -->
+        {% if product and product.image %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Current Image:</label>
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-40 h-40 object-cover rounded border mb-3">
+            </div>
+        {% endif %}
+
+        <!-- Manual fields instead of as_p for better styling -->
+        <div>
+            <label class="text-sm font-medium text-gray-700">Title</label>
+            {{ form.title|add_class:"border border-gray-300 rounded w-full p-2 focus:ring-green-500 focus:border-green-500" }}
+        </div>
+
+        <div>
+            <label class="text-sm font-medium text-gray-700">Description</label>
+            {{ form.description|add_class:"border border-gray-300 rounded w-full p-2 focus:ring-green-500 focus:border-green-500" }}
+        </div>
+
+        <div>
+            <label class="text-sm font-medium text-gray-700">Price</label>
+            {{ form.price|add_class:"border border-gray-300 rounded w-full p-2 focus:ring-green-500 focus:border-green-500" }}
+        </div>
+
+        <div>
+            <label class="text-sm font-medium text-gray-700">Quantity</label>
+            {{ form.quantity|add_class:"border border-gray-300 rounded w-full p-2 focus:ring-green-500 focus:border-green-500" }}
+        </div>
+
+        <div>
+            <label class="text-sm font-medium text-gray-700">Upload New Image (Optional)</label>
+            {{ form.image|add_class:"border border-gray-300 rounded w-full p-2 focus:ring-green-500 focus:border-green-500" }}
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-3 pt-3">
+            {% if product %}
+                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-600">
+                    Update Product
+                </button>
+            {% else %}
+                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-600">
+                    Add Product
+                </button>
+            {% endif %}
+
+            <a href="{% url 'dashboard_products' %}" class="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
