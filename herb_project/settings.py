@@ -1,19 +1,21 @@
 """
-Django settings for herb_project project (deployment-ready, no .env required).
+Django settings for herb_project project.
 """
 
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ---------------- SECURITY ----------------
-SECRET_KEY = 'your-hardcoded-secret-key-for-deployment'  # Change before public release!
-DEBUG = False  # Always False in production
+SECRET_KEY = 'django-insecure-lq=q@z%_+)(0!^^v66$+k&6s2_s#y*+pnj=#@lvnc=g1(=yg@='
 
-# Hosts allowed
-ALLOWED_HOSTS = ['*']  # For Render auto-deploy, '*' works. You can change later to domain.
+# ⚠️ CHANGE THIS TO False when deployed live
+DEBUG = True   
 
-# ---------------- APPS ----------------
+# 👉 Add Render domain here after deployment (example):
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,9 +27,9 @@ INSTALLED_APPS = [
     'dashboard',
 ]
 
-# ---------------- MIDDLEWARE ----------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',     # 👉 For static files on Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,8 +57,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'herb_project.wsgi.application'
 
-# ---------------- DATABASE ----------------
-# SQLite for startup / low traffic
+# -------------------------
+#    DATABASE (SQLite ONLY)
+# -------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -64,34 +67,26 @@ DATABASES = {
     }
 }
 
-# ---------------- PASSWORD VALIDATION ----------------
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+# -----------------------
+#     STATIC SETTINGS
+#  (KEPT EXACTLY SAME)
+# -----------------------
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",   # local static files for development
 ]
 
-# ---------------- INTERNATIONALIZATION ----------------
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # where collectstatic puts files for deployment
 
-# ---------------- STATIC & MEDIA ----------------
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Development static files
-STATIC_ROOT = BASE_DIR / 'staticfiles'    # Production / collectstatic
+# WhiteNoise for static files
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# -----------------------
+#     MEDIA SETTINGS
+# -----------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# ---------------- SECURITY HEADERS ----------------
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-X_FRAME_OPTIONS = 'DENY'
-
-# ---------------- DEFAULT PK ----------------
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
