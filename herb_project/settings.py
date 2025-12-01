@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-lq=q@z%_+)(0!^^v66$+k&6s2_s#y*+pnj=#@lvnc=g1(=yg@=
 DEBUG = True   
 
 # 👉 Add Render domain here after deployment (example):
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://herblife.onrender.com/']
 
 # Application definition
 INSTALLED_APPS = [
