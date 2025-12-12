@@ -1,39 +1,25 @@
-"""
-Django settings for herb_project project.
-"""
-
 from pathlib import Path
 import os
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# -------------------------
-#      SECRET KEY
-# -------------------------
-# Read from environment for security; fallback to development key
+# Secret Key
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-lq=q@z%_+)(0!^^v66$+k&6s2_s#y*+pnj=#@lvnc=g1(=yg@="
+    "(gy2y^o3q-3j@0ebg+8!bwh1-t)noak5v(=haos0_u^=rppen9"
 )
 
-# -------------------------
-#       DEBUG
-# -------------------------
-# Should be False in production
-DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+# Debug
+DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
-# -------------------------
-#    ALLOWED HOSTS
-# -------------------------
+# Allowed Hosts
 ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS",
     "herblife.onrender.com,localhost,127.0.0.1,www.herblife.world"
 ).split(",")
 
-# -------------------------
-#   APPLICATION DEFINITION
-# -------------------------
+# Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,9 +31,10 @@ INSTALLED_APPS = [
     'dashboard',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,9 +62,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'herb_project.wsgi.application'
 
-# -------------------------
-#     DATABASE CONFIGURATION
-# -------------------------
+# Database (PostgreSQL on Render, fallback to SQLite locally)
 DATABASES = {
     'default': dj_database_url.parse(
         os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR}/db.sqlite3"),
@@ -86,28 +71,15 @@ DATABASES = {
     )
 }
 
-# -------------------------
-#     STATIC FILES
-# -------------------------
+# Static files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # local static files for development
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# -------------------------
-#     MEDIA FILES
-# -------------------------
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# -------------------------
-#    DEFAULT PRIMARY KEY
-# -------------------------
+# Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-
-

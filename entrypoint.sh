@@ -1,16 +1,24 @@
 #!/bin/bash
-set -e
+set -e  # Exit immediately if any command fails
 
 echo "===== ENTRYPOINT START ====="
+
+# Print environment variables for debugging
 echo "DATABASE_URL: $DATABASE_URL"
 echo "DJANGO_DEBUG: $DJANGO_DEBUG"
 echo "DJANGO_ALLOWED_HOSTS: $DJANGO_ALLOWED_HOSTS"
-echo "BASE_DIR: $BASE_DIR"
 
-# Test Python environment
-python --version
-pip list
+# Wait a few seconds for PostgreSQL to be ready (optional)
+sleep 5
 
-# Exit so container doesn’t crash
-echo "Entrypoint debug complete"
-tail -f /dev/null
+# Run migrations
+echo "Running migrations..."
+python manage.py migrate --noinput
+
+# Collect static files
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
+
+# Start Gunicorn
+echo "Starting Gunicorn..."
+exec gunicorn herb_project.wsgi:application --bind 0.0.0.0:8000
