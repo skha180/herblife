@@ -1,10 +1,16 @@
 services:
-  - type: web
+  # PostgreSQL service (already exists on Render)
+  - type: postgresql
     name: herblife
     plan: free
+
+  # Web service (Docker)
+  - type: web
+    name: herblife
     env: docker
-    buildCommand: ""
-    startCommand: ""
+    plan: free
+    buildCommand: ""  # Not needed because Dockerfile handles build
+    startCommand: ""  # Not needed because Dockerfile + entrypoint.sh handles start
     envVars:
       - key: DATABASE_URL
         fromService:
