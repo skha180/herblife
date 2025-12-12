@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: herblife
+    plan: free
+    env: docker
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          name: herblife
+          property: connectionString

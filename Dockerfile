@@ -14,14 +14,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project (including static)
+# Copy the entire project
 COPY . .
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE 8000
 
-# Run server with gunicorn
+# Set entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
+
+# Run gunicorn
 CMD ["gunicorn", "herb_project.wsgi:application", "--bind", "0.0.0.0:8000"]
