@@ -1,24 +1,30 @@
 #!/bin/bash
-set -e  # Exit immediately if any command fails
+set -e
 
-echo "===== ENTRYPOINT START ====="
-
-# Print environment variables for debugging
+echo "===== ENTRYPOINT DEBUG ====="
 echo "DATABASE_URL: $DATABASE_URL"
+echo "DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY"
 echo "DJANGO_DEBUG: $DJANGO_DEBUG"
 echo "DJANGO_ALLOWED_HOSTS: $DJANGO_ALLOWED_HOSTS"
 
-# Wait a few seconds for PostgreSQL to be ready (optional)
-sleep 5
+# Test database connection safely
+echo "Testing database connection..."
+python - <<END
+import os
+import dj_database_url
+from django.db import connections
+from django.db.utils import OperationalError
 
-# Run migrations
-echo "Running migrations..."
-python manage.py migrate --noinput
+db_config = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+print("Parsed DB config:", db_config)
 
-# Collect static files
-echo "Collecting static files..."
-python manage.py collectstatic --noinput
+try:
+    conn = connections['default']
+    conn.cursor()
+    print("PostgreSQL connection OK")
+except OperationalError as e:
+    print("PostgreSQL connection FAILED:", e)
+END
 
-# Start Gunicorn
-echo "Starting Gunicorn..."
-exec gunicorn herb_project.wsgi:application --bind 0.0.0.0:8000
+echo "DEBUG ENTRYPOINT COMPLETE"
+tail -f /dev/null
