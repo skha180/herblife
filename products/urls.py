@@ -9,4 +9,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
 
+    # Dynamic blog page for each product
+    path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
 ]

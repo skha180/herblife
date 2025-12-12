@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Rosita's Blog{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- Left Column: Blog Content & Product Offer -->
+        <div class="flex-1">
+
+            <!-- Blog Title & Metadata -->
+            <h1 class="text-3xl font-bold mb-2">{{ post.title }}</h1>
+            <p class="text-sm text-gray-500 mb-6">
+                Published: {{ post.created_at|date:"d M Y" }} | Author: {{ post.author }}
+            </p>
+
+            <!-- Featured Image -->
+            {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full rounded-lg mb-6 object-cover">
+            {% endif %}
+
+            <!-- Blog Content -->
+            <div class="prose max-w-full mb-8">
+                {{ post.content|safe }}
+            </div>
+
+            <!-- Insert Your Sample Text Here -->
+            <div class="prose max-w-full mb-8 bg-gray-50 p-6 rounded-lg shadow">
+                <p>
+                    Hello! You may remember that I used to make complaints about my husband about 6 months ago. Sex is so
+                    unsatisfactory as we could not reach the ‘top’? Even when I use my mouth, the penis did not show any
+                    sign of erection, or <span class="me_span"> the erection does not last long, only from <span class="nowrap">1-3 minutes</span> at most!</span>
+                </p>
+                <p>When I see pornography - I realize that all guys own a firm penis, which is always ready to ‘do it’.</p>
+                <p>I took your advice, my husband also found all ways: tons of other erectile dysfunction drugs as well as
+                    exercising yoga to help increase the feelings of sex. But all ended up in vain!</p>
+                <p>
+                    At last, I decided to live with it and I took credit for genetic factors and body’s functions of each
+                    person! I accepted the fact that the situation were caused by genetic factors and I saw that
+                    <span class="me_span"> my husband lost all of his confidence</span> when we discussed about this
+                    sensitive problems. Thus, even I didn’t have any desire for sex with my husband as I always anticipated
+                    the disastrous outcomes after sex when I could not feel satisfy, and <span class="me_span"> my husband felt depressed</span>.
+                </p>
+                <h2>Then a surprise came…</h2>
+                <picture>
+                    <source type="image/webp" srcset="{% static 'products/images/46.jpg' %}">
+                    <img src="{% static 'products/images/46.jpg' %}" alt="Interview" class="rounded-lg my-4">
+                </picture>
+                <p>
+                    Half of a year passed by and I accidentally saw an interview of a pornography star Donald Ramsek from a
+                    TV show called “Talk with you” (Maybe you also know this show) in a recognized magazine. He shared his
+                    experiences so that every man can have sex as he wished, as long as his penis could come to erection as
+                    he expected and ended with a strong orgasm. That was what I was always trying for.
+                </p>
+                <p>
+                    According to his experience, in order to do that, man would need a product named <a href="{{ landing_url }}">Prosteron</a>. The product helps to improve blood circulation in the genitals
+                    and overcome erectile dysfunction. Thus, the quality of sex will be enhanced, erection will be stronger
+                    and sexual desire will be higher.
+                </p>
+                <a href="{{ landing_url }}"><img alt="Prosteron Product" class="rounded-lg my-4" src="{% static 'products/images/45.jpg' %}"></a>
+                <p>Donald encouraged man to use <a href="{{ landing_url }}">Prosteron</a>. He said that he knew it truly worked.
+                </p>
+                <p>After reading the article, I ordered the product immediately by accessing the link provided. We have only
+                    one company certified to sell the product. <a href="{{ landing_url }}">This is their website</a>.</p>
+                <p>The package arrives a few days after I made an order, and I only pay when I receive the goods - Everything is safe.</p>
+                <h2>How was the result?</h2>
+                <p>I opened the product, read the instruction and told my husband to use it.<sup>1</sup> On the second day
+                    of using, his penis was so ready with impressive size inside his trousers.</p>
+                <p>
+                    He can’t help rushing into me: we had sex during 1&nbsp;hours and 47&nbsp;minutes. His penis was as
+                    solid as IRON during the whole intercourse! When we reached orgasm, oh my god… WE BOTH SCREAMED AND IT
+                    SEEMED LIKE THE HOUSE WAS SHAKING, THAT WAS AWESOME!!! I have never experienced such a wonderful
+                    feelings like that throughout my entire life! Of course, I hoped the product would work. But I did not
+                    think that it was so amazing. EXTREMELY powerful…
+                </p>
+                <p>
+                    But it was the truth, I could not believe that this product could influence so significantly on the
+                    body.
+                    <span class="me_span"> My husband was able to regain <span class="nowrap">self-confidence</span> and my respect for him in a short time!</span>
+                    You can judge the price of the product yourself, but if it can change your life for good, why not? DON’T
+                    HESITATE SPENDING MONEY FOR GOOD THINGS.
+                </p>
+            </div>
+
+            <!-- Product Offer Section -->
+            <div class="bg-white rounded-2xl shadow p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-4">Special Offer for Readers</h2>
+
+                <div class="flex flex-col md:flex-row items-center gap-6">
+
+                    <!-- Product Image & Price -->
+                    <div class="flex-1 text-center md:text-left">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-48 h-48 mx-auto md:mx-0 object-contain rounded-lg mb-4">
+                        <div class="text-lg font-bold">
+                            {% if product.discount_price %}
+                                <span class="line-through text-gray-400">₦{{ product.price }}</span>
+                                <span class="text-green-600 ml-2">₦{{ product.discount_price }}</span>
+                            {% else %}
+                                <span>₦{{ product.price }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Offer Countdown & Form -->
+                    <div class="flex-1">
+                        <p class="mb-2">Make an order before the discount expires!</p>
+                        <p class="mb-4">Offer ends in: <span class="font-bold timer" data-end-time="{{ ten_hours_from_now }}"></span></p>
+
+                        <!-- Order Form -->
+                        <form action="{% url 'order_create' product.id %}" method="POST" class="space-y-3">
+                            {% csrf_token %}
+                            <div>
+                                <select name="city" required class="border rounded px-3 py-2 w-full">
+                                    <option value="">Select state</option>
+                                    {% for state in nigeria_states %}
+                                        <option value="{{ state }}">{{ state }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <input type="text" name="name" placeholder="Your Name" required class="border rounded px-3 py-2 w-full">
+                            </div>
+                            <div>
+                                <input type="tel" name="phone" placeholder="Phone Number" required class="border rounded px-3 py-2 w-full">
+                            </div>
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded w-full">
+                                Order Now
+                            </button>
+                        </form>
+
+                        <p class="text-sm text-gray-500 mt-3">
+                            Last day of discount giveaway: {{ product.offer_end_time|date:"d M Y H:i" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animated Static Notifications -->
+            <div id="customer-notifications" class="fixed bottom-4 left-4 space-y-2 z-50"></div>
+
+        </div>
+
+        <!-- Right Column: Customer Feedback & Product Images -->
+<div class="w-full lg:w-1/4 space-y-6">
+
+    <!-- Customer Feedback Section -->
+    <div class="bg-white rounded-xl shadow p-4 animate-fadeIn">
+        <h3 class="font-semibold mb-4 text-lg animate-pulse">What Customers Say</h3>
+        <div class="space-y-4">
+            {% comment %} Static feedback avatars {% endcomment %}
+            <div class="flex items-center gap-3 animate-slideInLeft">
+                <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">J</div>
+                <div>
+                    <p class="text-sm font-semibold">John from Lagos</p>
+                    <p class="text-xs text-gray-500">"Amazing product! Highly recommend."</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 animate-slideInLeft delay-100">
+                <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">M</div>
+                <div>
+                    <p class="text-sm font-semibold">Mary from Abuja</p>
+                    <p class="text-xs text-gray-500">"I enjoyed this product, really works."</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 animate-slideInLeft delay-200">
+                <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold">A</div>
+                <div>
+                    <p class="text-sm font-semibold">Ahmed from Kano</p>
+                    <p class="text-xs text-gray-500">"Fast delivery and excellent quality!"</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 animate-slideInLeft delay-300">
+                <div class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold">C</div>
+                <div>
+                    <p class="text-sm font-semibold">Chioma from Port Harcourt</p>
+                    <p class="text-xs text-gray-500">"Highly recommend to everyone!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Image Cards -->
+    <div class="space-y-4">
+        <div class="bg-white rounded-xl shadow overflow-hidden animate-bounce">
+            <img src="{% static 'products/images/45.jpg' %}" alt="Product Image" class="w-full object-cover">
+        </div>
+        <div class="bg-white rounded-xl shadow overflow-hidden animate-bounce delay-100">
+            <img src="{% static 'products/images/45.jpg' %}" alt="Product Image" class="w-full object-cover">
+        </div>
+        <div class="bg-white rounded-xl shadow overflow-hidden animate-bounce delay-200">
+            <img src="{% static 'products/images/45.jpg' %}" alt="Product Image" class="w-full object-cover">
+        </div>
+    </div>
+
+</div>
+
+
+    </div>
+</div>
+
+<!-- Countdown Timer JS (10 hours from page load) -->
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    const timerEl = document.querySelector('.timer');
+    const endTime = new Date(new Date().getTime() + 10*60*60*1000).getTime(); // 10 hours from load
+    function updateTimer(){
+        const now = new Date().getTime();
+        let distance = endTime - now;
+        if(distance < 0) distance = 0;
+        const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+        const seconds = Math.floor((distance % (1000*60))/1000);
+        timerEl.innerHTML = `${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+    }
+    updateTimer();
+    setInterval(updateTimer,1000);
+});
+</script>
+
+<!-- Animated Notifications JS -->
+<script>
+const notifications = [
+    "John from Lagos just ordered this product! Amazing results!",
+    "Mary from Abuja says: 'So good, I enjoyed this product!'",
+    "Ahmed from Kano shared feedback: 'Highly recommend it!'",
+    "Chioma from Port Harcourt: 'Fast delivery and excellent product!'"
+];
+
+function showNotification() {
+    const container = document.getElementById('customer-notifications');
+    const message = document.createElement('div');
+    message.textContent = notifications[Math.floor(Math.random()*notifications.length)];
+    message.className = "bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-bounce";
+    container.appendChild(message);
+    setTimeout(()=> message.remove(), 5000);
+}
+
+setInterval(showNotification, 8000);
+</script>
+
+{% endblock %}
