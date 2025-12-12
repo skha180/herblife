@@ -4,18 +4,36 @@ Django settings for herb_project project.
 
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-lq=q@z%_+)(0!^^v66$+k&6s2_s#y*+pnj=#@lvnc=g1(=yg@='
+# -------------------------
+#      SECRET KEY
+# -------------------------
+# Read from environment for security; fallback to development key
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-lq=q@z%_+)(0!^^v66$+k&6s2_s#y*+pnj=#@lvnc=g1(=yg@="
+)
 
-# ⚠️ CHANGE THIS TO False when deployed live
-DEBUG = True   
+# -------------------------
+#       DEBUG
+# -------------------------
+# Should be False in production
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-# 👉 Add Render domain here after deployment (example):
-ALLOWED_HOSTS = ['herblife.onrender.com', 'localhost', '127.0.0.1','www.herblife.world']
+# -------------------------
+#    ALLOWED HOSTS
+# -------------------------
+ALLOWED_HOSTS = os.environ.get(
+    "DJANGO_ALLOWED_HOSTS",
+    "herblife.onrender.com,localhost,127.0.0.1,www.herblife.world"
+).split(",")
 
-# Application definition
+# -------------------------
+#   APPLICATION DEFINITION
+# -------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,7 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',     # 👉 For static files on Render
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,37 +75,39 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'herb_project.wsgi.application'
 
-import dj_database_url
-
+# -------------------------
+#     DATABASE CONFIGURATION
+# -------------------------
 DATABASES = {
     'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
+        os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR}/db.sqlite3"),
         conn_max_age=600,
         ssl_require=True
     )
 }
 
-
-# -----------------------
-#     STATIC SETTINGS
-#  (KEPT EXACTLY SAME)
-# -----------------------
+# -------------------------
+#     STATIC FILES
+# -------------------------
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
-    BASE_DIR / "static",   # local static files for development
+    BASE_DIR / "static",  # local static files for development
 ]
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # where collectstatic puts files for deployment
-
-# WhiteNoise for static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# -----------------------
-#     MEDIA SETTINGS
-# -----------------------
+# -------------------------
+#     MEDIA FILES
+# -------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
+# -------------------------
+#    DEFAULT PRIMARY KEY
+# -------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
